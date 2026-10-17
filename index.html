@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="description" content="CAT HUB — Roblox script showcase, updates, and community. Created by CATJack.gg.">
+  <title>CAT HUB | Script Showcase</title>
+  <style>
+    :root{--bg:#080909;--panel:#111313;--panel2:#171918;--gold:#ffd52a;--gold2:#ffb800;--text:#f5f5ee;--muted:#a6a89f;--line:#3d3513;--green:#b8ff65}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--text);background:radial-gradient(ellipse at 50% -20%,#41350c 0,transparent 44%),linear-gradient(180deg,#0a0b0a,#070808 65%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(#777 1px,transparent 1px),linear-gradient(90deg,#777 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+    .ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .orb{position:absolute;width:260px;height:260px;border-radius:50%;filter:blur(75px);opacity:.13;animation:floatorb 13s ease-in-out infinite alternate}
+    .orb.one{background:#ffcc22;top:8%;left:-120px}.orb.two{background:#2effc0;top:42%;right:-140px;animation-delay:-5s}.orb.three{background:#bb45ff;bottom:0;left:35%;animation-delay:-8s}
+    @keyframes floatorb{to{transform:translate3d(50px,-35px,0) scale(1.2)}}
+    .wrap{z-index:1}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(1080px,calc(100% - 32px));margin:auto;position:relative}
+    header{display:flex;align-items:center;justify-content:space-between;padding:22px 0;gap:16px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:950;letter-spacing:1.5px}
+    .logo{width:44px;height:44px;border-radius:12px;overflow:hidden;border:1px solid #ffd52a88;box-shadow:0 0 22px #ffd52a35;flex:0 0 auto}
+    .logo img{width:100%;height:100%;object-fit:cover;display:block;animation:catSit 3.8s ease-in-out infinite;transform-origin:50% 85%}
+    #loader{position:fixed;inset:0;z-index:9999;background:#080909;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s ease,visibility .45s ease}
+    #loader.done{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-logo{width:clamp(115px,30vw,180px);aspect-ratio:1;border-radius:24px;overflow:hidden;position:relative;box-shadow:0 0 26px #ff303055,0 0 50px #38ff9b33,0 0 80px #4e7bff22}
+    .loader-logo:after{content:"";position:absolute;inset:-3px;border:3px solid transparent;border-top-color:#ff3b3b;border-right-color:#5bff8b;border-bottom-color:#5588ff;border-left-color:#df4bff;border-radius:27px;animation:rgbspin 1.2s linear infinite}
+    .loader-logo img{width:100%;height:100%;object-fit:cover;display:block;animation:catSit 3.8s ease-in-out infinite;transform-origin:50% 85%}
+    .loader-title{font-size:clamp(28px,7vw,42px);font-weight:1000;letter-spacing:3px;color:#f7f7ef;text-shadow:0 0 10px #ff4c4c,0 0 22px #4cffae,0 0 32px #4d77ff}
+    .loader-title span{animation:rgbtext 2s linear infinite}
+    .loader-sub{color:#a9aaa2;font-size:11px;font-weight:800;letter-spacing:3px}
+    .loader-track{width:min(260px,68vw);height:5px;border-radius:99px;background:#252620;overflow:hidden}
+    .loader-progress{height:100%;width:0;background:linear-gradient(90deg,#ff4545,#ffe34d,#43ff9d,#4a8cff,#df4cff);box-shadow:0 0 15px #60ffad;animation:loadbar 5s linear forwards}
+    @keyframes rgbspin{to{transform:rotate(360deg)}}
+    @keyframes rgbtext{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(180deg)}}
+    @keyframes loadbar{to{width:100%}}
+    @media(prefers-reduced-motion:reduce){.loader-logo:after,.loader-title span,.loader-progress,.orb,.hero-logo,.stat:before,.logo img,.loader-logo img,.hero-logo img{animation:none!important}.card{transition:none}}
+    .brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:3px}
+    .nav{display:flex;align-items:center;gap:18px;color:#d0d0c8;font-size:13px}
+    .nav a:hover{color:var(--gold)}
+    .discord,.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid #76601b;border-radius:11px;padding:11px 15px;font-weight:850;font-size:13px;transition:.18s}
+    .discord{background:#19170d;color:var(--gold)}
+    .discord:hover,.btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px #ffd52a20}
+    .hero{text-align:center;padding:58px 0 35px;position:relative}
+    .hero:before{content:"";position:absolute;z-index:-1;width:min(720px,100%);height:330px;left:50%;top:28px;transform:translateX(-50%);background:radial-gradient(ellipse,#ffd52a18,transparent 68%);filter:blur(10px)}
+    .hero-logo{width:92px;height:92px;margin:0 auto 22px;border-radius:25px;overflow:hidden;border:1px solid #ffffff28;box-shadow:0 0 22px #ffcf2b36,0 0 55px #44ffb51c;animation:floatlogo 4s ease-in-out infinite}
+    .hero-logo img{width:100%;height:100%;object-fit:cover;display:block;animation:catSit 3.8s ease-in-out infinite;transform-origin:50% 85%}
+    @keyframes catSit{0%,100%{transform:translateY(0) rotate(0deg) scale(1)}25%{transform:translateY(-2px) rotate(-.35deg) scale(1.006)}50%{transform:translateY(0) rotate(0deg) scale(1.012)}75%{transform:translateY(-1px) rotate(.35deg) scale(1.006)}}
+    @keyframes floatlogo{50%{transform:translateY(-7px);box-shadow:0 0 35px #ffcf2b55,0 0 65px #44ffb52b}}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:11px;font-weight:900;letter-spacing:2.3px;border:1px solid #554719;border-radius:99px;padding:8px 12px;background:#191608}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+    h1{font-size:clamp(44px,9vw,82px);line-height:.98;letter-spacing:-3px;margin:22px 0 15px;font-weight:1000}
+    h1 span{color:var(--gold);text-shadow:0 0 35px #ffd52a28}
+    .lead{color:var(--muted);max-width:570px;margin:0 auto;line-height:1.7;font-size:15px}
+    .hero-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:11px;margin-top:25px}
+    .btn.primary{background:linear-gradient(135deg,var(--gold),#ffb900);color:#111;border-color:transparent}
+    .btn.secondary{background:#131514;color:#f5f5ee;border-color:#34352e}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;margin:36px auto 0}
+    .stat{border:1px solid #292a23;background:#111311cc;border-radius:14px;padding:16px 10px;position:relative;overflow:hidden}
+    .stat:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,#ff3d55,#ffe34d,#39ff9a,#4e8cff,#df4cff);background-size:200% 100%;animation:rgbline 3s linear infinite}
+    .stat strong{display:block;color:var(--gold);font-size:22px;font-weight:950;text-shadow:0 0 12px #ffd52a30}
+    .stat:nth-child(2) strong{animation:rgbtext 5s linear infinite}
+    .stat:nth-child(3) strong{animation:rgbtext 5s linear infinite}
+    .stat span{display:block;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:1.6px;margin-top:5px}
+    section{padding:26px 0 48px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .section-head h2{margin:0;font-size:26px;letter-spacing:-.8px}
+    .section-head p{margin:7px 0 0;color:var(--muted);font-size:13px}
+    .pill{color:var(--gold);border:1px solid #554719;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:900;letter-spacing:1px;white-space:nowrap}
+    .rgb-border{position:relative}
+    .rgb-border:after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(120deg,#ff3d55,#ffe34d,#39ff9a,#4e8cff,#df4cff,#ff3d55);background-size:300% 300%;animation:rgbline 5s linear infinite;pointer-events:none;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+    @keyframes rgbline{to{background-position:200% 0}}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+    .card{border:1px solid #302d1d;border-radius:17px;padding:19px;background:linear-gradient(145deg,#151715dd,#0d0f0eee);box-shadow:0 12px 40px #0003;position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;backdrop-filter:blur(8px)}
+    .card:hover{transform:translateY(-4px);border-color:#8e7728;box-shadow:0 18px 48px #0006,0 0 25px #ffd52a0c}
+    .card:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.8}
+    .card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .card-status{display:inline-flex;align-items:center;gap:6px;color:#c5ffc9;font-size:10px;font-weight:850;letter-spacing:1px}
+    .card-status:before{content:"";width:6px;height:6px;border-radius:50%;background:#68ff91;box-shadow:0 0 9px #68ff91}
+    .badge{font-size:10px;letter-spacing:1.2px;font-weight:900;color:var(--gold);background:#27210b;border:1px solid #4a3c11;border-radius:7px;padding:6px 8px}
+    .card h3{font-size:20px;margin:17px 0 7px}
+    .card p{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 15px;min-height:40px}
+    .code{background:#080a09;border:1px solid #2b2d26;border-radius:10px;padding:11px;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+    .code code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;line-height:1.5;color:#d5d6c8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+    .copy-mini{border:0;background:#26220f;color:var(--gold);border-radius:7px;padding:7px 9px;font-size:11px;font-weight:900;cursor:pointer}
+    .card .btn{width:100%;cursor:pointer}
+    .searchbar{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #303129;background:#111311;color:var(--text);outline:none;margin:0 0 15px}
+    .searchbar:focus{border-color:#8b7119}
+    .empty{display:none;color:var(--muted);padding:20px;text-align:center}
+    .notice{border:1px solid #3b351b;background:#15140e;border-radius:13px;padding:13px 15px;color:#c9c7b8;font-size:12px;line-height:1.6;margin-top:17px}
+    .notice b{color:var(--gold)}
+    footer{border-top:1px solid #26271f;padding:24px 0 32px;color:var(--muted);font-size:12px}
+    .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .credit{color:var(--gold);font-weight:900}
+    #toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#fbd22a;color:#111;padding:12px 17px;border-radius:10px;font-size:13px;font-weight:900;box-shadow:0 8px 30px #0008;transition:.2s;z-index:10}
+    #toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:650px){.nav{display:none}.hero{padding-top:40px}h1{letter-spacing:-2px}.grid{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:13px 5px}.stat strong{font-size:19px}.stat span{font-size:8px;letter-spacing:1px}.section-head h2{font-size:22px}.card{padding:16px}}
+  </style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"><span class="orb one"></span><span class="orb two"></span><span class="orb three"></span></div>
+  <div id="loader" aria-label="CAT HUB loading screen">
+    <div class="loader-logo"><img src="assets/cat-hub-logo.png" alt="CAT HUB cat logo"></div>
+    <div class="loader-title"><span>CAT HUB</span></div>
+    <div class="loader-sub">INITIALIZING CAT HUB</div>
+    <div class="loader-track"><div class="loader-progress"></div></div>
+  </div>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#">
+        <div class="logo"><img src="assets/cat-hub-logo.png" alt="CAT HUB logo"></div><div>CAT HUB<small>ROBLOX SCRIPT SHOWCASE</small></div>
+      </a>
+      <nav class="nav"><a href="#scripts">Scripts</a><a href="#updates">Updates</a><a href="#community">Community</a></nav>
+      <a class="discord" href="https://discord.gg/KckKFJWzs6" target="_blank" rel="noopener">Join Discord ↗</a>
+    </header>
+    <main>
+      <div class="hero">
+        <div class="hero-logo"><img src="assets/cat-hub-logo.png" alt="CAT HUB cat logo"></div>
+        <div class="eyebrow"><span class="dot"></span> NEXT-GEN SCRIPT SHOWCASE</div>
+        <h1>ENTER THE<br><span>CATVERSE.</span></h1>
+        <p class="lead">Your CAT HUB script showcase, latest links, and community updates — all in one place.</p>
+        <div class="hero-actions"><a class="btn primary" href="#scripts">Explore Scripts ↓</a><a class="btn secondary" href="https://discord.gg/KckKFJWzs6" target="_blank" rel="noopener">Join Our Discord ↗</a></div>
+        <div style="margin:28px auto 0;max-width:600px;overflow:hidden;border-block:1px solid #343020;padding:10px 0;color:#b6b5a9;font-size:10px;font-weight:900;letter-spacing:2px;white-space:nowrap">
+          <span style="display:inline-block;animation:marquee 18s linear infinite"> CAT HUB ✦ BUILT BY CATJack.gg ✦ MOBILE READY ✦ COMMUNITY FIRST ✦ CAT HUB ✦ BUILT BY CATJack.gg ✦ MOBILE READY ✦ COMMUNITY FIRST ✦ </span>
+        </div>
+        <style>@keyframes marquee{to{transform:translateX(-35%)}}</style>
+        <div class="stats">
+          <div class="stat"><strong id="onlineCount">—</strong><span>ONLINE NOW</span></div>
+          <div class="stat"><strong id="copyCount">0</strong><span>TOTAL COPIES</span></div>
+          <div class="stat"><strong id="likeCount">0</strong><span>SCRIPT LIKES</span></div>
+        </div>
+      </div>
+      <section id="scripts">
+        <div class="section-head"><div><h2>Explore the Library</h2><p>Your next game setup, one tap away.</p></div><span class="pill">✦ CAT HUB / LIBRARY</span></div>
+        <input id="search" class="searchbar" type="search" placeholder="Search scripts..." aria-label="Search scripts">
+        <div class="grid" id="scriptGrid"></div>
+        <div class="empty" id="empty">No scripts match your search.</div>
+        <div class="notice"><b>Note:</b> Script links are shown as provided. Review source code and only use scripts where permitted by the game and platform rules.</div>
+      </section>
+      <section id="updates">
+        <div class="section-head"><div><h2>What's New</h2><p>Fresh links and project updates from CAT HUB.</p></div><span class="pill">✦ CHANGELOG</span></div>
+        <div class="card"><div class="card-top"><span class="badge">WEBSITE LAUNCH</span><span style="color:var(--muted);font-size:11px">CAT HUB</span></div><h3>CAT HUB Script Showcase</h3><p>Added script listings, quick-copy buttons, search, Discord access, and a responsive layout for mobile devices.</p></div>
+      </section>
+      <section id="community">
+        <div class="section-head"><div><h2>Join the Community</h2><p>Follow announcements and share feedback with the CAT HUB community.</p></div></div>
+        <div class="card"><h3>CAT HUB Discord</h3><p>Visit the community for announcements and project updates.</p><a class="btn primary" href="https://discord.gg/KckKFJWzs6" target="_blank" rel="noopener">Join CAT HUB Discord ↗</a></div>
+      </section>
+    </main>
+    <footer><div class="foot"><span>© <span id="year"></span> CAT HUB. All rights reserved.</span><span>Created by <span class="credit">CATJack.gg</span></span></div></footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite">Copied!</div>
+  <script>
+    const scripts = [
+      {name:"Blox Fruits", tag:"POPULAR", desc:"CAT HUB listing for Blox Fruits.", url:"https://raw.githubusercontent.com/CatJackop/Cathub/refs/heads/main/BLOX.lua"},
+      {name:"Dead Rails", tag:"FEATURED", desc:"CAT HUB listing for Dead Rails.", url:"https://raw.githubusercontent.com/CatJackop/Cathub/refs/heads/main/Daedrail.lua"},
+      {name:"99 Nights in the Forest", tag:"UPDATED", desc:"CAT HUB listing for 99 Nights in the Forest.", url:"https://raw.githubusercontent.com/CatJackop/Cathub/refs/heads/main/99nightinforest.lua"},
+      {name:"Murder Mystery 2 — Script 1", tag:"MM2", desc:"First Murder Mystery 2 script listing.", url:"https://raw.githubusercontent.com/CatJackop/Cat-jack-MM2/refs/heads/main/MM2.txt"},
+      {name:"Murder Mystery 2 — Script 2", tag:"MM2", desc:"Second Murder Mystery 2 script listing.", url:"https://raw.githubusercontent.com/CatJackop/CATHUB./refs/heads/main/CATHUB-MM2.lua"},
+      {name:"Pet Ride", tag:"PET RIDE", desc:"CAT HUB listing for Pet Ride.", url:"https://raw.githubusercontent.com/CatJackop/Cathub/refs/heads/main/Pet-ride.lua.txt"}
+    ];
+    const loader = url => `loadstring(game:HttpGet("${url}"))()`;
+    const grid = document.getElementById("scriptGrid");
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    const readStore = (key, fallback) => { try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); } catch (_) { return fallback; } };
+    const writeStore = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {} };
+    let totalCopies = readStore("catHubTotalCopies", 0);
+    let likedScripts = readStore("catHubLikedScripts", {});
+    function updateStats() {
+      document.getElementById("copyCount").textContent = totalCopies.toLocaleString();
+      document.getElementById("likeCount").textContent = Object.values(likedScripts).filter(Boolean).length.toLocaleString();
+      document.querySelectorAll("[data-like-count]").forEach(el => { const key = decodeURIComponent(el.dataset.likeCount); el.textContent = likedScripts[key] ? "♥" : "♡"; });
+      document.querySelectorAll("[data-like]").forEach(btn => { const key = decodeURIComponent(btn.dataset.like); btn.style.color = likedScripts[key] ? "#ff6b8a" : "var(--gold)"; btn.title = likedScripts[key] ? "Unlike script" : "Like script"; });
+    }
+    function showToast(msg){toast.textContent=msg;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1800)}
+    async function copyText(text){
+      let copied = false;
+      try{await navigator.clipboard.writeText(text);copied = true}
+      catch(e){const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{copied = document.execCommand("copy")}catch(_){}ta.remove()}
+      if(copied){totalCopies += 1;writeStore("catHubTotalCopies", totalCopies);updateStats();showToast("Loadstring copied!")}
+      else showToast("Copy failed — select and copy manually");
+    }
+    function render(filter=""){
+      const filtered=scripts.filter(s=>(s.name+" "+s.desc+" "+s.tag).toLowerCase().includes(filter.toLowerCase()));
+      grid.innerHTML=filtered.map((s)=>{const load=loader(s.url);return `<article class="card rgb-border"><div class="card-top"><span class="badge">${s.tag}</span><span class="card-status">READY</span></div><h3>${s.name}</h3><p>${s.desc}</p><div class="code"><code title="${load.replaceAll('&','&amp;').replaceAll('"','&quot;')}">${load}</code><button class="copy-mini" data-copy="${encodeURIComponent(load)}" aria-label="Copy ${s.name} loadstring">COPY</button></div><div style="display:grid;grid-template-columns:1fr auto;gap:8px"><button class="btn primary" data-copy="${encodeURIComponent(load)}">Copy Loadstring</button><button class="copy-mini like-btn" data-like="${encodeURIComponent(s.name)}" aria-label="Like ${s.name}" style="padding:0 13px;font-size:13px">♥ <span data-like-count="${encodeURIComponent(s.name)}">0</span></button></div></article>`}).join("");
+      document.getElementById("empty").style.display=filtered.length?"none":"block";
+    }
+    grid.addEventListener("click",e=>{
+      const copyBtn=e.target.closest("[data-copy]");
+      if(copyBtn){copyText(decodeURIComponent(copyBtn.dataset.copy));return}
+      const likeBtn=e.target.closest("[data-like]");
+      if(likeBtn){const key=decodeURIComponent(likeBtn.dataset.like);likedScripts[key]=!likedScripts[key];writeStore("catHubLikedScripts",likedScripts);updateStats();showToast(likedScripts[key]?"Liked script":"Like removed")}
+    });
+    document.getElementById("search").addEventListener("input",e=>render(e.target.value.trim()));
+    document.getElementById("year").textContent=new Date().getFullYear();
+    render();
+    // A static Netlify site cannot know real visitors without a shared backend.
+    // This is a local display estimate only, not a live global online count.
+    document.getElementById("onlineCount").textContent = "LIVE*";
+    updateStats();
+    // Keep the splash screen visible for five seconds, then reveal the site.
+    window.setTimeout(() => document.getElementById("loader").classList.add("done"), 5000);
+  </script>
+</body>
+</html>
